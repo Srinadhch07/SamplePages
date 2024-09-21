@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio Projects</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            height: 100%;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .project {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        .project:hover {
+            transform: translateY(-5px);
+        }
+        .project img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .project h3 {
+            margin-top: 0;
+        }
+        .add-project {
+            margin-top: 30px;
+            text-align: center;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            color: #000;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .shiny-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            z-index: -1;
+        }
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="shiny-bg"></div>
+    <div class="container">
+        <h1>My Portfolio Projects</h1>
+        <div id="projects" class="projects"></div>
+        <div class="add-project">
+            <button id="addProjectBtn">Add New Project</button>
+        </div>
+    </div>
+
+    <div id="addProjectModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Project</h2>
+            <input type="password" id="passcode" placeholder="Enter passcode">
+            <input type="text" id="projectName" placeholder="Project Name">
+            <input type="text" id="imageUrl" placeholder="Image URL">
+            <textarea id="projectDescription" placeholder="Project Description"></textarea>
+            <button id="submitProject">Add Project</button>
+        </div>
+    </div>
+
+    <script>
+        // Create stars
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.width = `${Math.random() * 3}px`;
+            star.style.height = star.style.width;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+            document.body.appendChild(star);
+        }
+
+        // Load projects from localStorage
+        let projects = JSON.parse(localStorage.getItem('projects')) || [];
+
+        // Display projects
+        function displayProjects() {
+            const projectsContainer = document.getElementById('projects');
+            projectsContainer.innerHTML = '';
+            projects.forEach((project, index) => {
+                const projectElement = document.createElement('div');
+                projectElement.classList.add('project');
+                projectElement.innerHTML = `
+                    <img src="${project.imageUrl}" alt="${project.name}">
+                    <h3>${project.name}</h3>
+                    <p>${project.description}</p>
+                `;
+                projectsContainer.appendChild(projectElement);
+
+                // Animate project entry
+                gsap.from(projectElement, {
+                    duration: 0.5,
+                    opacity: 0,
+                    y: 50,
+                    delay: index * 0.1,
+                    ease: "power2.out"
+                });
+            });
+        }
+
+        displayProjects();
+
+        // Modal functionality
+        const modal = document.getElementById('addProjectModal');
+        const btn = document.getElementById('addProjectBtn');
+        const span = document.getElementsByClassName('close')[0];
+        const submitBtn = document.getElementById('submitProject');
+
+        btn.onclick = () => modal.style.display = "block";
+        span.onclick = () => modal.style.display = "none";
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        submitBtn.onclick = () => {
+            const passcode = document.getElementById('passcode').value;
+            if (passcode !== '123456') {
+                alert('Incorrect passcode');
+                return;
+            }
+
+            const name = document.getElementById('projectName').value;
+            const imageUrl = document.getElementById('imageUrl').value;
+            const description = document.getElementById('projectDescription').value;
+
+            if (name && imageUrl && description) {
+                projects.push({ name, imageUrl, description });
+                localStorage.setItem('projects', JSON.stringify(projects));
+                displayProjects();
+                modal.style.display = "none";
+                
+                // Clear input fields
+                document.getElementById('passcode').value = '';
+                document.getElementById('projectName').value = '';
+                document.getElementById('imageUrl').value = '';
+                document.getElementById('projectDescription').value = '';
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        // Animate background
+        gsap.to(".shiny-bg", {
+            duration: 10,
+            background: "radial-gradient(circle at center, #2a2a2a 0%, #000 100%)",
+            repeat: -1,
+            yoyo: true,
+            ease: "power1.inOut"
+        });
+    </script>
+</body>
+</html>
