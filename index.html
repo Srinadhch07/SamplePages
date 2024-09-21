@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Portfolio Projects</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             font-family: 'Times New Roman', Times, serif;
-            background-color: #000;
-            color: #fff;
-            height: 100%;
-            overflow-x: hidden;
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
         }
         .container {
             max-width: 1200px;
@@ -21,83 +19,71 @@
             padding: 20px;
         }
         h1 {
-            text-align: left;
+            text-align: center;
+            color: #2c3e50;
             margin-bottom: 30px;
-            font-size: 2.5em;
-            color: #ff4500;
-            text-transform: uppercase;
-            letter-spacing: 2px;
         }
         .projects {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
         }
         .project {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             padding: 20px;
-            transition: all 0.5s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
         }
         .project:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
         }
         .project img {
             width: 100%;
-            height: 300px;
+            height: 200px;
             object-fit: cover;
             border-radius: 5px;
             margin-bottom: 15px;
         }
         .project h3 {
+            color: #e74c3c;
             margin-top: 0;
-            font-size: 2em;
-            color: #ff0000;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
         .project p {
             margin-bottom: 15px;
-            line-height: 1.6;
-            font-size: 1.1em;
         }
         .know-more-btn {
             display: inline-block;
-            background-color: #4CAF50;
+            background-color: #3498db;
             color: white;
-            padding: 10px 20px;
+            padding: 10px 15px;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.5s ease;
-            font-size: 1em;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
         }
         .know-more-btn:hover {
-            background-color: #45a049;
+            background-color: #2980b9;
         }
         .add-project {
             margin-top: 30px;
-            text-align: left;
+            text-align: center;
         }
         button {
-            background-color: #4CAF50;
+            background-color: #2ecc71;
             border: none;
             color: white;
-            padding: 15px 32px;
+            padding: 12px 24px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
-            border-radius: 5px;
-            transition: all 0.5s ease;
-            font-family: 'Times New Roman', Times, serif;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #45a049;
-            transform: scale(1.05);
+            background-color: #27ae60;
         }
         .modal {
             display: none;
@@ -117,56 +103,37 @@
             border: 1px solid #888;
             width: 80%;
             max-width: 500px;
-            border-radius: 10px;
-            color: #000;
-            font-family: 'Times New Roman', Times, serif;
+            border-radius: 5px;
         }
         .close {
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
+            cursor: pointer;
         }
         .close:hover,
         .close:focus {
-            color: black;
+            color: #000;
             text-decoration: none;
-            cursor: pointer;
         }
         input, textarea {
             width: 100%;
-            padding: 12px 20px;
+            padding: 10px;
             margin: 8px 0;
             display: inline-block;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 3px;
             box-sizing: border-box;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 1em;
         }
-        .shiny-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
-            z-index: -1;
-        }
-        .star {
-            position: absolute;
-            background-color: #fff;
-            border-radius: 50%;
-            animation: twinkle 4s infinite alternate;
-        }
-        @keyframes twinkle {
-            0% { opacity: 0.2; }
-            100% { opacity: 1; }
+        @media (max-width: 600px) {
+            .projects {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="shiny-bg"></div>
     <div class="container">
         <h1>My Portfolio Projects</h1>
         <div id="projects" class="projects"></div>
@@ -189,18 +156,6 @@
     </div>
 
     <script>
-        // Create stars
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.style.width = `${Math.random() * 3}px`;
-            star.style.height = star.style.width;
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.animationDuration = `${Math.random() * 4 + 2}s`;
-            document.body.appendChild(star);
-        }
-
         // Load projects from localStorage
         let projects = JSON.parse(localStorage.getItem('projects')) || [];
 
@@ -208,7 +163,7 @@
         function displayProjects() {
             const projectsContainer = document.getElementById('projects');
             projectsContainer.innerHTML = '';
-            projects.forEach((project, index) => {
+            projects.forEach((project) => {
                 const projectElement = document.createElement('div');
                 projectElement.classList.add('project');
                 projectElement.innerHTML = `
@@ -217,16 +172,7 @@
                     <p>${project.description}</p>
                     <a href="${project.link}" target="_blank" class="know-more-btn">Know More</a>
                 `;
-                projectsContainer.appendChild(projectElement);
-
-                // Animate project entry
-                gsap.from(projectElement, {
-                    duration: 1.5,
-                    opacity: 0,
-                    x: -100,
-                    delay: index * 0.3,
-                    ease: "power2.out"
-                });
+                projectsContainer.prepend(projectElement); // Add new projects to the top
             });
         }
 
@@ -238,15 +184,7 @@
         const span = document.getElementsByClassName('close')[0];
         const submitBtn = document.getElementById('submitProject');
 
-        btn.onclick = () => {
-            modal.style.display = "block";
-            gsap.from(".modal-content", {
-                duration: 0.8,
-                opacity: 0,
-                y: 50,
-                ease: "power2.out"
-            });
-        };
+        btn.onclick = () => modal.style.display = "block";
         span.onclick = () => modal.style.display = "none";
         window.onclick = (event) => {
             if (event.target == modal) {
@@ -267,7 +205,7 @@
             const link = document.getElementById('projectLink').value;
 
             if (name && imageUrl && description && link) {
-                projects.push({ name, imageUrl, description, link });
+                projects.unshift({ name, imageUrl, description, link }); // Add new project to the beginning of the array
                 localStorage.setItem('projects', JSON.stringify(projects));
                 displayProjects();
                 modal.style.display = "none";
@@ -282,32 +220,6 @@
                 alert('Please fill in all fields');
             }
         }
-
-        // Animate background
-        gsap.to(".shiny-bg", {
-            duration: 15,
-            background: "radial-gradient(circle at center, #2a2a2a 0%, #000 100%)",
-            repeat: -1,
-            yoyo: true,
-            ease: "power1.inOut"
-        });
-
-        // Animate heading
-        gsap.from("h1", {
-            duration: 2,
-            opacity: 0,
-            y: -50,
-            ease: "power2.out"
-        });
-
-        // Animate add project button
-        gsap.from("#addProjectBtn", {
-            duration: 2,
-            opacity: 0,
-            y: 50,
-            ease: "power2.out",
-            delay: 1
-        });
     </script>
 </body>
 </html>
