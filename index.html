@@ -1,116 +1,406 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>SRINADH's Portfolio</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<style type="text/css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
 
-		
-		body{
-			margin: 0px;
-			padding:30px;
-			background: black;
-			background-image: url('bg.png');
-			background-repeat: no-repeat;
-  			background-attachment: fixed;
-  			background-size: cover;
-  			user-select: none;
-
-		}
-		.underline{
-			display: inline-block;
-			position: relative;
-			color: white;
-			font-size: 40px;
-		}
-		.underline:hover{
-			color: #4F75FF;
-		}
-		.underline::after{
-			content: '';
-			width: 100%;
-			position: absolute;
-			transform: scaleX(0);
-			height: 2px;
-			bottom: -2px;
-			bottom: 0;
-			left: 0px;
-			background: green;
-			transform-origin: bottom right;
-			transition: transform 0.55s ease-out;
-		}
-		.underline:hover::after{
-			transform: scaleX(1);
-			transform-origin: bottom left;
-		}
-		.header{
-			padding:20px;
-		}
-		h1{
-			word-spacing: 5px;
-			letter-spacing: 1px;
-			color: white;
-		}
-		// Header section1
-		header {
-            animation: fadeIn 2s ease-in-out;
-            overflow: hidden;	
-  			padding: 20px 10px;
-  			border: 2px solid white;
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Times New Roman', Times, serif;
+            color: black;
+            line-height: 1.6;
+            height: 100%;
+            overflow-x: hidden;
+            user-select: none;
         }
- 		@keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        body {
+            background: linear-gradient(135deg, #87A2FF 0%, #FFF4B5 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
         }
-        header a{
-			  float: left;
-			  color: white;
-			  text-align: center;
-			  padding: 5px;
-			  text-decoration: none;
-			  font-size: 25px; 
-			  line-height: 25px;
-			  border-radius: 4px;
-			  margin-right: 30px;
-			  margin-top: 60px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
         }
-        .header-right {
-			  float: right;
-			}
-
-        // Header Section finished
-         section {
-           
-            animation: fadeInUp 2s ease-in-out;
+        h1 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            letter-spacing: 2px;
         }
-
-        .main-text{
-        	margin-top: 150px;
-        	font-size: 100px;
-        	letter-spacing: 10px;
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
         }
-		
-	</style>
-
+        .project {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            padding: 25px;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+        }
+        .project:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .project img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: transform 0.5s ease;
+        }
+        .project:hover img {
+            transform: scale(1.05);
+        }
+        .project h3 {
+            font-family: 'Playfair Display', serif;
+            color: #34495e;
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+        .project p {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+        .know-more-btn, .delete-btn {
+            display: inline-block;
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .know-more-btn:before, .delete-btn:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        .know-more-btn:hover:before, .delete-btn:hover:before {
+            width: 150px;
+            height: 150px;
+        }
+        .know-more-btn:hover {
+            background-color: #2980b9;
+        }
+        .delete-btn {
+            background-color: #e74c3c;
+            margin-left: 10px;
+        }
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        .add-project {
+            margin-top: 40px;
+            text-align: center;
+        }
+        button#toggleModeBtn {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #2ecc71;
+            border: none;
+            color: white;
+            padding: 10px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.1em;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        button#toggleModeBtn:hover {
+            background-color: #27ae60;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #f9f9f9;
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: modalAppear 0.6s ease;
+        }
+        @keyframes modalAppear {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+        }
+        @media (max-width: 600px) {
+            .projects {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+        }
+    </style>
 </head>
 <body>
-	<header>
-	 <div class="header-right ">
-	    <a class="active underline" href="#home">Workspace</a>
-	    <a class="underline" href="projects.html">Project</a>
-	    <a class = "underline" href="#about">About</a>
-	    <a class = "underline" href="#about">Socials</a>
-	    <a class = "underline" href="#about">Contact</a>
+    <div class="container">
+        <h1>Projects</h1>
+        <div id="projects" class="projects"></div>
+        <div class="add-project">
+            <button id="toggleModeBtn">Add New Project</button>
+        </div>
+    </div>
 
+    <div id="addProjectModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Project</h2>
+            <input type="password" id="passcode" placeholder="Enter passcode">
+            <input type="text" id="projectName" placeholder="Project Name">
+            <input type="text" id="imageUrl" placeholder="Image URL">
+            <textarea id="projectDescription" placeholder="Project Description"></textarea>
+            <input type="text" id="projectLink" placeholder="Project Link">
+            <button id="submitProject" class="know-more-btn">Add Project</button>
+        </div>
+    </div>
 
-	  </div>
-	</header>
-	<h1 class="underline main-text"><span style="color: red;font-size: 150px;">S</span>rinadh <span style="color: red;font-size: 150px;"><br>C</span>hintakindi</h1>
-	
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyD_p2qbBzIyFAMG8Pc_sKLO64EnPC-yUa8",
+            authDomain: "portfolio-e5f00.firebaseapp.com",
+            databaseURL: "https://portfolio-e5f00-default-rtdb.firebaseio.com",
+            projectId: "portfolio-e5f00",
+            storageBucket: "portfolio-e5f00.appspot.com",
+            messagingSenderId: "346691126835",
+            appId: "1:346691126835:web:f3592d3e1ed94061198546",
+            measurementId: "G-8354TY37JM"
+        };
 
-</body>
-</html>
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let projects = [];
+        let isDeleteMode = false;
+
+        function displayProjects() {
+            const projectsContainer = document.getElementById('projects');
+            projectsContainer.innerHTML = '';
+            projects.forEach((project, index) => {
+                const projectElement = document.createElement('div');
+                projectElement.classList.add('project');
+                projectElement.innerHTML = `
+                    <img src="${project.imageUrl}" alt="${project.name}">
+                    <h3>${project.name}</h3>
+                    <p>${project.description}</p>
+                    <a href="${project.link}" target="_blank" class="know-more-btn">Know More</a>
+                    ${isDeleteMode ? `<button class="delete-btn" data-key="${project.key}">Delete</button>` : ''}
+                `;
+                projectsContainer.appendChild(projectElement);
+            });
+
+            if (isDeleteMode) {
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const key = this.getAttribute('data-key');
+                        deleteProject(key);
+                    });
+                });
+            }
+        }
+
+        function loadProjects() {
+            database.ref('projects').on('value', (snapshot) => {
+                projects = [];
+                snapshot.forEach((childSnapshot) => {
+                    projects.push({
+                        key: childSnapshot.key,
+                        ...childSnapshot.val()
+                    });
+                });
+                displayProjects();
+            });
+        }
+
+        function generateFakeOTP() {
+            return "031121";
+        }
+
+        function checkOTP() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const otp = prompt("An OTP has been sent to your registered device. Please enter the OTP:");
+                    if (otp === "031121") {
+                        resolve(true);
+                    } else {
+                        alert("Incorrect OTP. Action cancelled.");
+                        resolve(false);
+                    }
+                }, 1000);
+            });
+        }
+
+        async function deleteProject(key) {
+            const passcode = prompt("Enter passcode to delete this project:");
+            if (passcode === "deletethisproject") {
+                alert("Passcode correct. Sending OTP for verification...");
+                const otpCorrect = await checkOTP();
+                if (otpCorrect) {
+                    database.ref('projects').child(key).remove()
+                        .then(() => {
+                            alert("Project deleted successfully.");
+                        })
+                        .catch((error) => {
+                            console.error("Error deleting project: ", error);
+                            alert("An error occurred while deleting the project.");
+                        });
+                }
+            } else {
+                alert("Incorrect passcode. Project not deleted.");
+            }
+        }
+
+        loadProjects();
+
+        const modal = document.getElementById('addProjectModal');
+        const toggleModeBtn = document.getElementById('toggleModeBtn');
+        const span = document.getElementsByClassName('close')[0];
+        const submitBtn = document.getElementById('submitProject');
+
+        toggleModeBtn.onclick = () => {
+            if (isDeleteMode) {
+                isDeleteMode = false;
+                toggleModeBtn.textContent = 'Add New Project';
+                toggleModeBtn.style.backgroundColor = '#2ecc71';
+            } else {
+                isDeleteMode = true;
+                toggleModeBtn.textContent = 'Cancel Delete Mode';
+                toggleModeBtn.style.backgroundColor = '#e74c3c';
+            }
+            displayProjects();
+        };
+
+        span.onclick = () => modal.style.display = "none";
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        submitBtn.onclick = async () => {
+            const passcode = document.getElementById('passcode').value;
+            if (passcode !== 'addthisproject') {
+                alert('Incorrect passcode');
+                return;
+            }
+
+            alert("Passcode correct. Sending OTP for verification...");
+            const otpCorrect = await checkOTP();
+            if (!otpCorrect) return;
+
+            const name = document.getElementById('projectName').value;
+            const imageUrl = document.getElementById('imageUrl').value;
+            const description = document.getElementById('projectDescription').value;
+            const link = document.getElementById('projectLink').value;
+
+            if (name && imageUrl && description && link) {
+                const newProjectRef = database.ref('projects').push();
+                newProjectRef.set({ name, imageUrl, description, link })
+                    .then(() => {
+                        modal.style.display = "none";
+                        
+                        // Clear input fields
+                        document.getElementById('passcode').value = '';
+                        document.getElementById('projectName').value = '';
+                        document.getElementById('imageUrl').value = '';
+                        document.getElementById('projectDescription').value = '';
+                        document.getElementById('projectLink').value = '';
+                        
+                        alert("Project added successfully.");
+                    })
+                    .catch((error) => {
+                        console.error("Error adding project: ", error);
+                        alert("An error occurred while adding the project.");
+                    });
+            } else {
